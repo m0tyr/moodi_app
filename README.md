@@ -5,6 +5,9 @@ Moodi App est une application web multiplateforme qui permet aux utilisateurs d�
 
 ---
 
+
+
+
 ##  Mention d’utilisation de l’IA
 
 Durant le développement de cette application, **l’IA a été utilisée de manière ciblée** pour apprendre et résoudre certains problèmes. Voici comment :
@@ -46,7 +49,10 @@ Fonctionnalités :
 - Routes protégées
 - API sécurisées
 
+![Moodi App](moodi_frontend/public/moodi_prev2.png)
+
 ---
+
 
 ##  Fonctionnalités
 
@@ -56,7 +62,13 @@ Fonctionnalités :
 -  **Multiplateforme** – interface responsive mobile / desktop
 -  **UX fluide** – transitions animées, design épuré et navigation rapide
 
+
+![Moodi App](moodi_frontend/public/moodi_prev1.png)
+
+![Moodi App](moodi_frontend/public/moodi_prev3.png)
 ---
+
+
 
 ##  Démarrage
 
