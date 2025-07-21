@@ -1,5 +1,7 @@
 import { AuthApiServiceImplementation } from "@/lib/api/auth/auth.api.service";
 import { NextRequest, NextResponse } from "next/server";
+import { useUserNameStore } from "./lib/stores/useUserNameStore";
+import { Emoji } from "./lib/types/moodiusers.types";
 
 export async function middleware(request: NextRequest) {
   const sessionId = request.cookies.get("moodisessionid")?.value;
@@ -10,7 +12,7 @@ export async function middleware(request: NextRequest) {
   const protectedRoutes = ["/feed", "/profile"];
 
 
-  const isPublicRoute = publicRoutes.some(route => 
+  const isPublicRoute = publicRoutes.some(route =>
     pathname === route || pathname.startsWith(route)
   )
 
@@ -43,12 +45,12 @@ export async function middleware(request: NextRequest) {
         },
       });
     } else {
-        const loginUrl = new URL("/login", request.url);
-        loginUrl.searchParams.set("next", pathname);
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname);
 
-        const response = NextResponse.redirect(loginUrl);
-        response.cookies.delete("moodisessionid");
-        return response;
+      const response = NextResponse.redirect(loginUrl);
+      response.cookies.delete("moodisessionid");
+      return response;
     }
   }
 
@@ -63,7 +65,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
- export const config = {
+export const config = {
   matcher: [
     "/((?!_next/static|_next/image|favicon.ico|public|images|static).*)",
   ],

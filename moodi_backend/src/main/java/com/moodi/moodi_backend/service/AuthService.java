@@ -6,6 +6,8 @@ import com.moodi.moodi_backend.entity.EMoodi;
 import com.moodi.moodi_backend.entity.EUser;
 import com.moodi.moodi_backend.enums.RTMStatus;
 import com.moodi.moodi_backend.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -100,7 +104,6 @@ public class AuthService {
                     SecurityContextHolder.getContext());
 
             session.setAttribute("userId", user.getId());
-            session.setAttribute("username", user.getUsername());
             session.setAttribute("loginTime", System.currentTimeMillis());
             session.setAttribute("ipAddress", this.getClientIpAddress(request));
             session.setAttribute("userAgent", user.getUserAgent());
@@ -126,17 +129,12 @@ public class AuthService {
         }
 
         Object userId = session.getAttribute("userId");
-        Object username = session.getAttribute("username");
         Object loginTime = session.getAttribute("loginTime");
         Object ipAddress = session.getAttribute("ipAddress");
         Object userAgent = session.getAttribute("userAgent");
 
-        if (userId == null || username == null || loginTime == null) {
+        if (userId == null || loginTime == null) {
             return RTMStatus.MISSING_SESSION_ATTRIBUTE;
-        }
-
-        if (!userRepository.existsByUsername(username.toString())) {
-            return RTMStatus.FAKE_SESSION_USER_DETECTED;
         }
 
         String currentIpAddress = this.getClientIpAddress(request);
@@ -149,11 +147,18 @@ public class AuthService {
         return RTMStatus.VALID_SESSION;
     }
 
-    public RTMStatus logout(HttpServletRequest request) {
+    public RTMStatus logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.invalidate();
         }
+
+        Cookie cookie = new Cookie("moodisessionid", null);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         SecurityContextHolder.clearContext();
         return RTMStatus.LOGOUT_SUCCESS;
     }

@@ -24,34 +24,23 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DUser> getUserById(@PathVariable Long id) {
-        DUser user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
-    }
-
     @GetMapping("/username/{username}")
     public ResponseEntity<DUser> getUserByUsername(@PathVariable String username) {
         DUser user = userService.getUserByUsername(username);
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/feed")
     public ResponseEntity<List<DUser>> getAllUsers() {
         List<DUser> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/edit_profile/{id}")
     public ResponseEntity<DUser> updateUser(@PathVariable Long id, @RequestBody DUser userDTO) {
         DUser updatedUser = userService.updateUser(id, userDTO);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @PostMapping("/update-last-login")
-    public ResponseEntity<String> updateLastLogin(@RequestBody String username) {
-        userService.updateLastLogin(username);
-        return ResponseEntity.ok("Last login updated successfully");
-    }
 
 }

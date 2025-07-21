@@ -1,13 +1,14 @@
 'use client';
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface MoodiUserProfileProps {
-  id: number;
+  id: string;
   name: string;
   mood: string;
   describe_my_mood: string;
-  index: number; 
+  index: number;
 }
 
 const MoodiUserProfile: React.FC<MoodiUserProfileProps> = ({
@@ -17,12 +18,16 @@ const MoodiUserProfile: React.FC<MoodiUserProfileProps> = ({
   describe_my_mood,
   index,
 }) => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/profile/${name}`);
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: -30, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{
-        duration: 0.3,
+        duration: 0.3, type: "spring", stiffness: 100,
         ease: [0.25, 0.46, 0.45, 0.94],
         delay: index * 0.15,
       }}
@@ -30,6 +35,7 @@ const MoodiUserProfile: React.FC<MoodiUserProfileProps> = ({
       whileHover={{
         scale: 1.02,
       }}
+      onClick={handleClick}
       key={id}
       className="flex flex-row justify-between cursor-pointer items-center gap-2 w-[300px] h-[75px] p-1.5 bg-[#121212] border border-[#2d2d2d]/30 rounded-full shadow-lg overflow-x-hidden"
     >
@@ -65,7 +71,7 @@ const MoodiUserProfile: React.FC<MoodiUserProfileProps> = ({
           </svg>
         </motion.div>
       </div>
-    </motion.div>
+    </motion.div >
   );
 };
 

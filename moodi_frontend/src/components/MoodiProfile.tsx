@@ -20,37 +20,30 @@ import {
 import { useLogout } from "@/hooks/useLogout";
 import { AuthApiServiceImplementation } from "@/lib/api/auth/auth.api.service";
 import { useRouter } from "next/navigation";
+import { useQueryProfile } from "@/hooks/useQueryProfile";
 
-type MoodiMyProfileProps = {};
+type MoodiProfileProps = {
+  username: string;
+};
 
-const MoodiMyProfile: React.FC<MoodiMyProfileProps> = () => {
+const MoodiProfile: React.FC<MoodiProfileProps> = ({ username }) => {
   const UserApiService = new UserApiServiceImplementation();
   const AuthApiService = new AuthApiServiceImplementation();
   const router = useRouter();
 
-  const { data: user, isLoading, error } = useQueryMyProfile(UserApiService);
+  const { data: user, isLoading, error } = useQueryProfile(username, UserApiService);
 
-  const logoutMutation = useLogout(AuthApiService);
-
-  const handleLogout = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        router.push("/login");
-        console.log("Logout successful");
-      },
-      onError: (error) => {
-        console.error("Logout failed:", error);
-      },
-    });
-  };
-
-  const handleUpdateUser = () => {
-    router.push(`/profile/${user?.username}/update`);
+  const handleGoBack = () => {
+    router.push('/feed');
   }
-
   return (
     <div className="flex flex-col justify-center items-center gap-2">
-      <div className="w-[300px] flex flex-row items-center justify-between">
+      <div className="w-[300px] relative flex flex-row items-center justify-between">
+        <motion.div whileTap={{ scale: 0.95 }}
+          whileHover={{ opacity: 0.8 }}
+          transition={{ duration: 0.3, type: "spring", stiffness: 300 }} onClick={handleGoBack} className="absolute top-0 left-[-50px] p-2 cursor-pointer justify-center items-center flex bg-[#121212] border border-[#2d2d2d]/30 rounded-full shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" strokeWidth={2} viewBox="0 0 7 16"><path fill="white" d="M5.5 13a.47.47 0 0 1-.35-.15l-4.5-4.5c-.2-.2-.2-.51 0-.71l4.5-4.49c.2-.2.51-.2.71 0c.2.2.2.51 0 .71L1.71 8l4.15 4.15c.2.2.2.51 0 .71c-.1.1-.23.15-.35.15Z" /></svg>
+        </motion.div>
         <span className=" tracking-tight font-medium text-[15px] text-white">{user?.username}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -78,24 +71,21 @@ const MoodiMyProfile: React.FC<MoodiMyProfileProps> = () => {
             className="w-[220px] drop-shadow-xl rounded-2xl bg-[#181818] border-x-[0.2333333px] border-b-[0.2333333px]  border-x-[#1d1d1d] border-y-[#1d1d1d]  text-small-semibold !text-[15px]"
           >
             <DropdownMenuGroup className="text-white text-[14px] m-1">
-              <DropdownMenuItem onClick={handleUpdateUser} >
-                Modifier mon profil
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={handleLogout}
-                className="!text-[rgb(255,48,64)]"
-              >
-                Déconnexion
+              <DropdownMenuItem className=" text-red-600 hover:bg-[#121212]/80 cursor-pointer">
+                Signaler
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
       <motion.div whileTap={{ scale: 0.95 }}
         whileHover={{ scale: 1.02 }}
-        transition={{ duration: 0.3, type: "spring", stiffness: 300 }} className="w-[300px] h-[300px] cursor-pointer rounded-full bg-[#121212] border border-[#2d2d2d]/30 shadow-2xl">
-      </motion.div>    </div>
+        transition={{ duration: 0.3, type: "spring", stiffness: 300 }} className="w-[300px] cursor-pointer h-[300px] rounded-full bg-[#121212] border border-[#2d2d2d]/30 shadow-2xl">
+      </motion.div>
+    </div>
+
   );
 };
 
-export default MoodiMyProfile;
+export default MoodiProfile;

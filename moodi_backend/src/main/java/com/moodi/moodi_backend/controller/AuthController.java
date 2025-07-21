@@ -5,7 +5,9 @@ import com.moodi.moodi_backend.domain.DUserLogin;
 import com.moodi.moodi_backend.enums.RTMStatus;
 import com.moodi.moodi_backend.service.AuthService;
 import com.moodi.moodi_backend.utils.UtilTools;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +55,6 @@ public class AuthController {
                     HttpSession session = request.getSession(false);
                     response.put("valid", true);
                     response.put("userId", session.getAttribute("userId"));
-                    response.put("username", session.getAttribute("username"));
                     response.put("sessionId", session.getId());
                     response.put("loginTime", session.getAttribute("loginTime"));
                     response.put("lastAccessed", session.getLastAccessedTime());
@@ -99,8 +100,9 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Map<String, String>> logout(HttpServletRequest request) {
-        authService.logout(request);
+    public ResponseEntity<Map<String, String>> logout(HttpServletRequest request, HttpServletResponse response) {
+        authService.logout(request, response);
+
         return ResponseEntity.ok(Map.of(
                 "status", "success",
                 "message", "Logged out successfully"

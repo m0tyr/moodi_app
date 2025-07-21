@@ -73,4 +73,14 @@ export class AuthApiServiceImplementation implements AuthApiService {
       return { valid: false, reason: "Network error" };
     }
   }
+  async logout(req?: Request): Promise<void> {
+    const baseUrl = getBaseBackendUrl();
+    const response = await fetch(
+      `${baseUrl}/api/auth/logout`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+  }
 }

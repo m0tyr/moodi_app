@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { AuthApiServiceImplementation } from "@/lib/api/auth/auth.api.service";
 import { Emoji, UserCreate } from "@/lib/types/moodiusers.types";
 import { useRouter } from "next/navigation";
+import { useUserNameStore } from "@/lib/stores/useUserNameStore";
 
 const loginSchema = z.object({
   username: z
@@ -35,6 +36,7 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const LoginForm: React.FC = () => {
+  const { cacheUsername } = useUserNameStore((s) => s.actions);
   const {
     register,
     handleSubmit,
@@ -62,6 +64,7 @@ const LoginForm: React.FC = () => {
     };
 
     authApiService.signUp(createdUserReq).then(() => {
+      cacheUsername(data.username);
       router.push("/feed");
     });
   };
@@ -115,16 +118,14 @@ const LoginForm: React.FC = () => {
           }
           disabled={isSubmitting}
           type="submit"
-          className={`cursor-pointer py-4.5 px-4 w-full bg-white tracking-tight text-[15px] font-semibold rounded-[20px] ${
-            isSubmitted && (errors.username || errors.password)
-              ? "text-red-500 border-[.5px] border-red-500"
-              : "text-black"
-          }`}
+          className={`cursor-pointer py-4.5 px-4 w-full bg-white tracking-tight text-[15px] font-semibold rounded-[20px] ${isSubmitted && (errors.username || errors.password)
+            ? "text-red-500 border-[.5px] border-red-500"
+            : "text-black"
+            }`}
           key={
             isSubmitted && (errors.username || errors.password)
-              ? `${errors.username?.message ?? ""}-${
-                  errors.password?.message ?? ""
-                }-${Date.now()}`
+              ? `${errors.username?.message ?? ""}-${errors.password?.message ?? ""
+              }-${Date.now()}`
               : "normal"
           }
         >
