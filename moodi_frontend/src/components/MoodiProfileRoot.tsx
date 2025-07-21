@@ -2,6 +2,8 @@
 import { useUserNameStore } from "@/lib/stores/useUserNameStore";
 import MoodiProfile from "./MoodiProfile";
 import MoodiEditProfile from "./MoodiEditProfile";
+import { UserApiServiceImplementation } from "@/lib/api/user/user.api.service";
+import { useQueryMyProfile } from "@/hooks/useQueryMyProfile";
 
 interface MoodiProfileRootProps {
     usernameToCheck: string;
@@ -11,8 +13,16 @@ const MoodiProfileRoot: React.FC<MoodiProfileRootProps> = ({
     usernameToCheck
 }) => {
     const { getConnectedUsername } = useUserNameStore((s) => s.actions);
+    const UserApiService = new UserApiServiceImplementation();
 
-    const connectedUsername = getConnectedUsername();
+    let connectedUsername = getConnectedUsername();
+
+    if (connectedUsername === null) {
+        const { data: user } = useQueryMyProfile(UserApiService);
+
+        connectedUsername = user?.username as string || null;
+    }
+
     const isMyProfile = connectedUsername === usernameToCheck;
 
     if (!isMyProfile) {

@@ -88,7 +88,7 @@ const MoodiEditProfile: React.FC = () => {
         ...user,
         username: data.username,
       });
-      router.push(`/profile/${data.username}`);
+      router.push(`/feed`);
     } catch (err) {
       console.error("Failed to update profile:", err);
     }
