@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@tanstack/react-query": "^5.83.0",
     "framer-motion": "^12.23.3",
     "next": "15.3.5",
     "react": "^19.0.0",

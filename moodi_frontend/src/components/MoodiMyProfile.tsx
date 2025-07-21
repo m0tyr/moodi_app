@@ -1,14 +1,18 @@
 "use client";
+import { useQueryMyProfile } from "@/hooks/useQueryMyProfile";
+import { UserApiServiceImplementation } from "@/lib/api/user/user.api.service";
 import { motion } from "framer-motion";
 import React from "react";
 
 type MoodiMyProfileProps = {};
 
 const MoodiMyProfile: React.FC<MoodiMyProfileProps> = () => {
+  const UserApiService = new UserApiServiceImplementation();
+  const { data: user, isLoading, error } = useQueryMyProfile(UserApiService);
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="w-[300px] flex flex-row items-center justify-between">
-        <span className=" tracking-tight font-medium text-[15px]">m0tyr</span>
+        <span className=" tracking-tight font-medium text-[15px]">{user?.username}</span>
         <motion.div
           className="flex flex-row items-center justify-center gap-2 cursor-pointer p-2"
           whileTap={{ scale: 0.95 }}
