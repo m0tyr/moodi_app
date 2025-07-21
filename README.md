@@ -5,13 +5,13 @@ Moodi App est une application web multiplateforme qui permet aux utilisateurs d�
 
 ---
 
-## 🧠 Mention d’utilisation de l’IA
+##  Mention d’utilisation de l’IA
 
 Durant le développement de cette application, **l’IA a été utilisée de manière ciblée** pour apprendre et résoudre certains problèmes. Voici comment :
 
-- 🤖 **Sécurité Spring Boot** : L’IA m’a aidé à comprendre comment configurer une authentification basée sur les sessions.
-- 🐞 **Débogage avancé** : En cas de bugs complexes ou peu clairs (ex. : erreurs de hook, décalage de session), l’IA a servi d’aide ponctuelle.
-- ⚠️ **Erreurs mineures** : Pour corriger rapidement des erreurs TypeScript ou de syntaxe.
+-  **Sécurité Spring Boot** : L’IA m’a aidé à comprendre comment configurer une authentification basée sur les sessions.
+-  **Débogage avancé** : En cas de bugs complexes ou peu clairs (ex. : erreurs de hook, décalage de session), l’IA a servi d’aide ponctuelle.
+-  **Erreurs mineures** : Pour corriger rapidement des erreurs TypeScript ou de syntaxe.
 
 Toute la **logique métier, les décisions de conception et l’architecture des composants** ont été réalisées par moi, avec les docs officielles :
 - [Documentation Next.js 15](https://nextjs.org/docs)
@@ -19,7 +19,7 @@ Toute la **logique métier, les décisions de conception et l’architecture des
 
 ---
 
-## 🧩 Stack Technique
+##  Stack Technique
 
 ### 🔗 Frontend
 - **Framework** : [Next.js 15](https://nextjs.org/) (basé sur React)
@@ -36,7 +36,7 @@ Toute la **logique métier, les décisions de conception et l’architecture des
 
 ---
 
-## 🔐 Authentification & Sécurité
+##  Authentification & Sécurité
 
 Moodi App utilise **Spring Security** avec **gestion de session** pour une authentification sécurisée. Les sessions sont stockées côté serveur, ce qui évite toute exposition de jetons côté client.
 
@@ -48,17 +48,17 @@ Fonctionnalités :
 
 ---
 
-## 🧑‍💻 Fonctionnalités
+##  Fonctionnalités
 
-- 🔐 **Connexion et inscription sécurisées**
-- 👤 **Profils utilisateurs** – consulter et modifier son pseudo ou son humeur
-- 📰 **Fil d’actualité** – découvrir les autres utilisateurs et leur humeur
-- 📱 **Multiplateforme** – interface responsive mobile / desktop
-- ✨ **UX fluide** – transitions animées, design épuré et navigation rapide
+-  **Connexion et inscription sécurisées**
+-  **Profils utilisateurs** – consulter et modifier son pseudo ou son humeur
+-  **Fil d’actualité** – découvrir les autres utilisateurs et leur humeur
+-  **Multiplateforme** – interface responsive mobile / desktop
+-  **UX fluide** – transitions animées, design épuré et navigation rapide
 
 ---
 
-## 🚀 Démarrage
+##  Démarrage
 
 ### 1. Backend (Spring Boot)
 
