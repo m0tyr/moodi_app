@@ -7,6 +7,8 @@ export async function middleware(request: NextRequest) {
   const sessionId = request.cookies.get("moodisessionid")?.value;
   const { pathname } = request.nextUrl;
 
+  const redirectRoutes = ["/"];
+
   const publicRoutes = ["/", "/login"];
 
   const protectedRoutes = ["/feed", "/profile"];
@@ -15,11 +17,15 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.some(route =>
     pathname === route || pathname.startsWith(route)
   )
-
+  const isRedirectRoute = redirectRoutes.some(route =>
+    pathname === route || pathname.startsWith(route)
+  );
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
   const authApiService = new AuthApiServiceImplementation();
+
+
 
   if (isProtectedRoute) {
     if (sessionId) {
@@ -62,11 +68,31 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  if (isRedirectRoute) {
+    if (sessionId) {
+      const sessionResult = await authApiService.validateSession(sessionId);
+      if (sessionResult.valid) {
+        return NextResponse.redirect(new URL("/feed", request.url));
+      } else {
+        const loginUrl = new URL("/login", request.url);
+        const response = NextResponse.redirect(loginUrl);
+        response.cookies.delete("moodisessionid");
+        return response;
+      }
+    } else {
+      const loginUrl = new URL("/login", request.url);
+      const response = NextResponse.redirect(loginUrl);
+      response.cookies.delete("moodisessionid");
+      return response;
+    }
+  }
+
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|public|images|static).*)",
-  ],
-}; 
+    '/((?!api|_next/static|_next/image|favicon.ico|login|feed).*)',
+  ]
+}
